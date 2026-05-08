@@ -1,0 +1,9 @@
+.env
+__pycache__/
+*.pyc
+app_state.json
+server.out.log
+server.err.log
+test_api_result.txt
+test_*.py
+uploads/

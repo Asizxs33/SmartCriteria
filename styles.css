@@ -1,0 +1,220 @@
+/* SmartCriteria — design tokens */
+:root {
+  --font-sans: 'Geist', 'Inter', system-ui, -apple-system, sans-serif;
+  --font-display: 'Fraunces', 'Playfair Display', Georgia, serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', monospace;
+}
+
+/* ───── Direction A: Slate / Indigo Academic ───── */
+.dir-a {
+  --bg: #f7f7f5;
+  --surface: #ffffff;
+  --surface-2: #f1f1ee;
+  --ink: #14161a;
+  --ink-2: #3a3f47;
+  --ink-3: #6b7280;
+  --line: #e5e5e1;
+  --line-2: #d8d8d3;
+  --accent: #2d4a8a;
+  --accent-2: #c4a269;
+  --success: #2f6b3a;
+  --danger: #b54545;
+  --warn: #b8841f;
+  --radius: 10px;
+  --radius-sm: 6px;
+  --radius-lg: 14px;
+}
+
+/* ───── Direction B: Warm Paper / Cream ───── */
+.dir-b {
+  --bg: #f4ede0;
+  --surface: #fbf7ee;
+  --surface-2: #ede4d2;
+  --ink: #2a241a;
+  --ink-2: #5a4f3d;
+  --ink-3: #8a7f6c;
+  --line: #ddd2b8;
+  --line-2: #c9bd9f;
+  --accent: #8a3a26;
+  --accent-2: #2d5236;
+  --success: #2d5236;
+  --danger: #8a3a26;
+  --warn: #8a6a26;
+  --radius: 4px;
+  --radius-sm: 2px;
+  --radius-lg: 8px;
+}
+
+/* ───── Direction C: Inkwell / High Contrast Editorial ───── */
+.dir-c {
+  --bg: #0f1115;
+  --surface: #181b22;
+  --surface-2: #1f232c;
+  --ink: #f5f4ef;
+  --ink-2: #c9c8c2;
+  --ink-3: #8a8983;
+  --line: #2a2f38;
+  --line-2: #353b46;
+  --accent: #d4ff3b;
+  --accent-2: #6a8cff;
+  --success: #6dd49b;
+  --danger: #ff6b6b;
+  --warn: #ffd166;
+  --radius: 2px;
+  --radius-sm: 0px;
+  --radius-lg: 4px;
+}
+
+/* ───── shared utilities ───── */
+.sc-root {
+  font-family: var(--font-sans);
+  background: var(--bg);
+  color: var(--ink);
+  font-feature-settings: 'ss01', 'cv11';
+  letter-spacing: -0.005em;
+  line-height: 1.45;
+}
+.sc-root *, .sc-root *::before, .sc-root *::after { box-sizing: border-box; }
+.sc-root button { font-family: inherit; cursor: pointer; }
+.sc-display { font-family: var(--font-display); font-weight: 400; letter-spacing: -0.02em; }
+.sc-mono { font-family: var(--font-mono); }
+.sc-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+.sc-divider { height: 1px; background: var(--line); width: 100%; }
+.sc-chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 3px 8px; font-size: 11px;
+  border: 1px solid var(--line); border-radius: 999px;
+  color: var(--ink-2); background: var(--surface);
+}
+.sc-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 10px 16px; font-size: 13px; font-weight: 500;
+  border-radius: var(--radius); border: 1px solid var(--ink); background: var(--ink); color: var(--bg);
+  transition: transform .12s ease, opacity .12s ease;
+}
+.sc-btn:hover { opacity: 0.88; }
+.sc-btn-ghost {
+  background: transparent; color: var(--ink); border-color: var(--line-2);
+}
+.sc-btn-accent {
+  background: var(--accent); border-color: var(--accent); color: #fff;
+}
+.dir-c .sc-btn-accent { color: #0f1115; }
+.sc-input {
+  width: 100%; padding: 10px 12px; font-size: 13px;
+  border: 1px solid var(--line-2); background: var(--surface);
+  color: var(--ink); border-radius: var(--radius); font-family: inherit;
+  outline: none;
+}
+.sc-input:focus { border-color: var(--accent); }
+
+.sc-grid-bg {
+  background-image:
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 32px 32px;
+  opacity: .35;
+}
+
+/* number badge */
+.sc-num {
+  display: inline-flex; width: 22px; height: 22px; align-items: center; justify-content: center;
+  font-family: var(--font-mono); font-size: 11px; color: var(--ink-2);
+  border: 1px solid var(--line-2); border-radius: 999px;
+}
+
+/* progress */
+.sc-bar { height: 4px; background: var(--surface-2); border-radius: 999px; overflow: hidden; }
+.sc-bar > i { display: block; height: 100%; background: var(--accent); border-radius: 999px; }
+
+/* checkmark */
+.sc-check {
+  width: 18px; height: 18px; border-radius: 999px;
+  border: 1.5px solid var(--line-2); display: inline-flex; align-items: center; justify-content: center;
+  font-size: 11px; flex-shrink: 0;
+}
+.sc-check.done { background: var(--success); border-color: var(--success); color: #fff; }
+.sc-check.fail { background: var(--danger); border-color: var(--danger); color: #fff; }
+
+/* compact density */
+.density-compact .sc-card { padding-top: 0; }
+.density-compact .sc-pad { padding: 12px !important; }
+.density-comfortable .sc-pad { padding: 20px; }
+
+/* placeholder image */
+.sc-img {
+  background:
+    repeating-linear-gradient(45deg, transparent 0 8px, color-mix(in oklch, var(--ink) 6%, transparent) 8px 9px),
+    var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--ink-3); font-family: var(--font-mono); font-size: 10px;
+  text-transform: uppercase; letter-spacing: 0.06em;
+}
+
+/* knowledge tree node */
+.sc-leaf {
+  width: 14px; height: 14px; border-radius: 999px;
+  background: var(--success);
+}
+.sc-leaf.empty { background: transparent; border: 1.5px dashed var(--line-2); }
+.sc-leaf.partial { background: var(--warn); }
+
+/* logotype */
+.sc-logo {
+  font-family: var(--font-display); font-style: italic;
+  font-weight: 500; letter-spacing: -0.02em;
+}
+.sc-logo-mark {
+  width: 22px; height: 22px; border-radius: 6px;
+  background: var(--ink); color: var(--bg);
+  display: inline-flex; align-items: center; justify-content: center;
+  font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+  flex-shrink: 0;
+}
+.dir-c .sc-logo-mark { background: var(--accent); color: #0f1115; }
+
+/* iphone screen styling */
+.phone-screen {
+  width: 390px; height: 844px; overflow: hidden;
+  background: var(--bg); color: var(--ink);
+  font-family: var(--font-sans);
+  position: relative;
+}
+.phone-status {
+  height: 44px; padding: 0 24px; display: flex; align-items: center; justify-content: space-between;
+  font-size: 14px; font-weight: 600;
+}
+.phone-home { position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%);
+  width: 134px; height: 5px; background: var(--ink); border-radius: 999px; opacity: 0.3; }
+
+/* Dark/light scheme variants per direction handled by `theme-dark` class */
+.theme-dark.dir-a {
+  --bg: #0e1014;
+  --surface: #161922;
+  --surface-2: #1d2230;
+  --ink: #f1f1ee;
+  --ink-2: #c8cad0;
+  --ink-3: #888c95;
+  --line: #262b36;
+  --line-2: #353b48;
+  --accent: #8aa6e0;
+  --accent-2: #d4b87a;
+}
+.theme-dark.dir-b {
+  --bg: #1a1612;
+  --surface: #221d18;
+  --surface-2: #2c2620;
+  --ink: #f4ede0;
+  --ink-2: #c9bda7;
+  --ink-3: #948872;
+  --line: #2f2820;
+  --line-2: #3e3528;
+  --accent: #d99070;
+  --accent-2: #8ab39a;
+}

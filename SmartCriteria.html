@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="kk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SmartCriteria — Дизайн</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  html, body { margin: 0; padding: 0; background: #ececea; font-family: 'Geist', system-ui, sans-serif; }
+  #root { width: 100vw; height: 100vh; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel" src="design-canvas.jsx"></script>
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<script type="text/babel" src="ios-frame.jsx"></script>
+<script type="text/babel" src="primitives.jsx"></script>
+<script type="text/babel" src="screens-landing.jsx"></script>
+<script type="text/babel" src="screens-teacher.jsx"></script>
+<script type="text/babel" src="screens-student.jsx"></script>
+
+<script type="text/babel" data-presets="env,react">
+const { useState, useEffect } = React;
+
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "language": "kz",
+  "theme": "dark",
+  "density": "comfortable",
+  "gamified": true,
+  "direction": "c"
+}/*EDITMODE-END*/;
+
+function App() {
+  const [tw, setTweak] = useTweaks(TWEAK_DEFAULTS);
+  const t = dict[tw.language] || dict.kz;
+  const themeClass = tw.theme === 'dark' ? 'theme-dark' : '';
+  const densityClass = tw.density === 'compact' ? 'density-compact' : 'density-comfortable';
+
+  // Wrap a screen in its direction class
+  const wrap = (dir, node) => (
+    <div className={`dir-${dir} ${themeClass} ${densityClass}`} style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      {node}
+    </div>
+  );
+
+  const directions = [
+    { id: 'a', name: 'A · Slate Academic', sub: 'Negroni-clean, indigo accent, restrained' },
+    { id: 'b', name: 'B · Cream Paper', sub: 'Warm paper, terracotta accent, bookish' },
+    { id: 'c', name: 'C · Inkwell Editorial', sub: 'Dark, lime AI accent, high contrast' },
+  ].filter(d => tw.direction === 'all' || tw.direction === d.id);
+
+  const screens = [
+    { id: 'landing', label: '01 · Landing', w: 1280, h: 800, render: (d) => <Landing t={t} dirVariant={d} /> },
+    { id: 'criteria', label: '02 · Teacher · Criteria Generator', w: 1280, h: 800, render: () => <CriteriaGen t={t} /> },
+    { id: 'catalog', label: '03 · Teacher · Subject Catalog', w: 1280, h: 800, render: () => <Catalog t={t} /> },
+    { id: 'class', label: '04 · Teacher · Class Management', w: 1280, h: 800, render: () => <ClassMgmt t={t} /> },
+    { id: 'upload', label: '05 · Student · Upload', w: 390, h: 844, render: () => <StudentUpload t={t} gamified={tw.gamified} /> },
+    { id: 'criteriaM', label: '06 · Student · Criteria Checklist', w: 390, h: 844, render: () => <StudentCriteria t={t} gamified={tw.gamified} /> },
+    { id: 'tutor', label: '07 · Student · Akyl Tutor', w: 390, h: 844, render: () => <StudentTutor t={t} gamified={tw.gamified} /> },
+    { id: 'tree', label: '08 · Student · Achievements', w: 390, h: 844, render: () => <StudentAchievements t={t} gamified={tw.gamified} /> },
+    { id: 'feedback', label: '09 · Student · Teacher Feedback', w: 390, h: 844, render: () => <StudentFeedback t={t} gamified={tw.gamified} /> },
+  ];
+
+  return (
+    <>
+      <DesignCanvas title="SmartCriteria — Critic-by-Criteria platform">
+        {directions.map(dir => (
+          <DCSection key={dir.id} id={`sec-${dir.id}`} title={dir.name} subtitle={dir.sub}>
+            {screens.map(s => (
+              <DCArtboard
+                key={s.id}
+                id={`${dir.id}-${s.id}`}
+                label={s.label}
+                width={s.w}
+                height={s.h}
+              >
+                {wrap(dir.id, s.render(dir.id))}
+              </DCArtboard>
+            ))}
+          </DCSection>
+        ))}
+      </DesignCanvas>
+
+      <TweaksPanel title="Tweaks">
+        <TweakSection title="Тіл / Language">
+          <TweakRadio label="" value={tw.language} onChange={(v) => setTweak('language', v)}
+            options={[{ label: 'KZ', value: 'kz' }, { label: 'RU', value: 'ru' }]} />
+        </TweakSection>
+        <TweakSection title="Тақырып">
+          <TweakRadio label="Тема" value={tw.theme} onChange={(v) => setTweak('theme', v)}
+            options={[{ label: 'Light', value: 'light' }, { label: 'Dark', value: 'dark' }]} />
+          <TweakRadio label="Тығыздық" value={tw.density} onChange={(v) => setTweak('density', v)}
+            options={[{ label: 'Қалыпты', value: 'comfortable' }, { label: 'Жинақы', value: 'compact' }]} />
+        </TweakSection>
+        <TweakSection title="Бағыт">
+          <TweakSelect label="Бағытты көрсету" value={tw.direction} onChange={(v) => setTweak('direction', v)}
+            options={[
+              { label: 'Барлығы (3)', value: 'all' },
+              { label: 'A · Slate Academic', value: 'a' },
+              { label: 'B · Cream Paper', value: 'b' },
+              { label: 'C · Inkwell Editorial', value: 'c' },
+            ]} />
+        </TweakSection>
+        <TweakSection title="Оқушы режимі">
+          <TweakToggle label="Геймификация (XP, streaks, badges)" value={tw.gamified} onChange={(v) => setTweak('gamified', v)} />
+        </TweakSection>
+      </TweaksPanel>
+    </>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>
