@@ -1,0 +1,7 @@
+{
+  "rewrites": [
+    { "source": "/config", "destination": "/api/config" },
+    { "source": "/api/extract-task", "destination": "/api/extract_task" },
+    { "source": "/api/evaluate-solution", "destination": "/api/evaluate_solution" }
+  ]
+}
