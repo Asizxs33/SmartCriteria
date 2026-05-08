@@ -29,7 +29,7 @@ ENV = load_env()
 OPENAI_API_KEY = ENV.get('OPENAI_API_KEY', '')
 OPENAI_MODEL = ENV.get('OPENAI_MODEL', 'gpt-4o-mini')
 
-DATABASE_URL = "postgresql://neondb_owner:npg_Yn0bUXO7jBZp@ep-aged-violet-apxb8sjt-pooler.c-7.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
+DATABASE_URL = ENV.get('DATABASE_URL', '')
 
 def get_db_connection():
     return psycopg2.connect(DATABASE_URL)
